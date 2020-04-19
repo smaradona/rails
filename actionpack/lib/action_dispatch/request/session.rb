@@ -11,12 +11,18 @@ module ActionDispatch
       Unspecified = Object.new
 
       def self.create(store, env, default_options)
+        puts "creating session. store: #{store}"
+        puts "creating session. env: #{env}"
+        puts "creating session. default_options: #{default_options}"
         session_was = find env
         session     = Request::Session.new(store, env)
+        puts "session1: #{session}"
         session.merge! session_was if session_was
 
         set(env, session)
         Options.set(env, Request::Session::Options.new(store, env, default_options))
+        puts "session2: #{session.to_hash}"
+        puts "env[racksession]: #{env['rack.session']}"
         session
       end
 
